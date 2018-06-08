@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.faulttolerance.Asynchronous;
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
@@ -53,6 +54,17 @@ public class ServiceCHelper {
     @Timeout(500)
     @Fallback(fallbackMethod="fallback")
     public Prop getPropertyWithTimeoutAndFallback(String name) {
+        try {
+            return self.getPropertyAsync(name).get();
+        } catch (Exception e) {
+            throw unwrapException(e);
+        }
+    }
+
+    @Timeout(500)
+    @Fallback(fallbackMethod="fallback")
+    @CircuitBreaker(requestVolumeThreshold = 10)
+    public Prop getPropertyWithTimeoutFallbackAndCircuitBreaker(String name) {
         try {
             return self.getPropertyAsync(name).get();
         } catch (Exception e) {
