@@ -72,12 +72,7 @@
                 <artifactId>liberty-maven-plugin</artifactId>
                 <version>2.0</version>
                 <configuration>
-                    <assemblyArtifact>
-                        <groupId>io.openliberty</groupId>
-                        <artifactId>openliberty-runtime</artifactId>
-                        <version>18.0.0.1</version>
-                        <type>zip</type>
-                    </assemblyArtifact>
+                    <assemblyArchive>../openliberty.zip</assemblyArchive>
                     <serverName>${project.artifactId}Server</serverName>
                     <configFile>src/main/liberty/config/server.xml</configFile>
                     <include>${packaging.type}</include>

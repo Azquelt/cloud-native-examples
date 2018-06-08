@@ -15,11 +15,19 @@
 -->
 <server description="Sample Servlet server">
     <featureManager>
-        <feature>microProfile-1.2</feature>
+        <!--<feature>microProfile-1.2</feature>-->
+        <feature>mpFaultTolerance-1.1</feature>
+        <feature>mpMetrics-1.1</feature>
         <feature>mpRestClient-1.0</feature>
+        <feature>cdi-1.2</feature>
+        <feature>jaxrs-2.0</feature>
     </featureManager>
     
     <httpEndpoint httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint" />
+
+    <keyStore password="keystorePw"/>
+
+    <quickStartSecurity userName="Admin" userPassword="Admin"/>
     
     <webApplication id="serviceA" location="serviceA.war" name="serviceA"/>
 </server>
