@@ -10,8 +10,8 @@ To run the demo:
   * This file includes configuration to have prometheus extract metrics from the liberty servers
 * In a new terminal, run `./prometheus` from the prometheus install directory
   * The prometheus console should now be available at http://localhost:9090
-* Open VS Code and and add the `serviceA` and `serviceC` directories to your workspace
-  * They should build successfully and liberty should restart the app
+* Open VS Code, go to File -> Open Workspace and open the `cloud-native-examples` directory
+  * `serviceA` and `serviceC` should build successfully and liberty should restart the app
 * At this point you can start hacking about with the code
   * Open `ServiceARest.java` and change the call to `getPropertyEasy()` to one of the other `getProperty...` calls
   * Liberty should pick up the changes and restart the app automatically
