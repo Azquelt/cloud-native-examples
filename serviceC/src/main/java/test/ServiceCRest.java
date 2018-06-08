@@ -47,7 +47,7 @@ public class ServiceCRest {
         } else if ("fail".equals(mode)) {
             builder = Response.status(500);
         } else if ("sometimes".equals(mode)) {
-            if (random.nextInt(10) < 5) {
+            if (random.nextInt(10) < 3) {
                 builder = Response.status(500);
             }
         }
