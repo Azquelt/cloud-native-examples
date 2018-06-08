@@ -16,18 +16,9 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <packaging.type>minify,runnable</packaging.type>
+        <packaging.type>usr</packaging.type>
     </properties>
-    
-    <profiles>
-        <profile>
-            <id>usr-package</id>
-            <properties>
-                <packaging.type>usr</packaging.type>
-            </properties>        
-        </profile>    
-    </profiles>
-    
+        
     <dependencies>
         <dependency>
             <groupId>javax</groupId>
