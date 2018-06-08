@@ -1,11 +1,14 @@
 package test;
 
-import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.faulttolerance.Asynchronous;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
@@ -22,35 +25,59 @@ public class ServiceCHelper {
     @RestClient
     private ServiceC client;
 
-    public String getProperty(String name, String mode) {
-        return client.getProp(mode, name).getValue();
-     }
+    @Inject
+    private ServiceCHelper self;
 
-    public Prop getPropertyEasy(String name) {
-        return new Prop(name, getProperty(name, "none"));
+    public String getProperty(String name) {
+        return client.getProp("none", name).getValue();
     }
 
-    public Prop getPropertyNoRetry(String name) {
-        return new Prop(name, getProperty(name, "sometimes"));
+    public Prop getPropertyEasy(String name) {
+        return new Prop(name, getProperty(name));
     }
 
     @Retry()
     public Prop getPropertyWithRetry(String name)  {
-        return new Prop(name, getProperty(name, "sometimes"));
+        return new Prop(name, getProperty(name));
     }
 
     @Timeout(500)
     public Prop getPropertyWithTimeout(String name)  {
-        return new Prop(name, getProperty(name, "slow"));
+        try {
+            return self.getPropertyAsync(name).get();
+        } catch (Exception e) {
+            throw unwrapException(e);
+        }
     }
 
     @Timeout(500)
     @Fallback(fallbackMethod="fallback")
-    public Prop getPropertyWithTimeoutAndFallback(String name) throws IOException {
-        return new Prop(name, getProperty(name, "slow"));
+    public Prop getPropertyWithTimeoutAndFallback(String name) {
+        try {
+            return self.getPropertyAsync(name).get();
+        } catch (Exception e) {
+            throw unwrapException(e);
+        }
     }
 
     public Prop fallback(String name) {
         return new Prop(name, System.getProperty(name));
+    }
+
+    @Asynchronous
+    public Future<Prop> getPropertyAsync(String name) {
+        return CompletableFuture.completedFuture(new Prop(name, getProperty(name)));
+    }
+
+    private RuntimeException unwrapException(Throwable e) {
+        if (e instanceof ExecutionException) {
+            e = e.getCause();
+        }
+
+        if (e instanceof RuntimeException) {
+            return (RuntimeException) e;
+        }
+
+        return new RuntimeException(e);
     }
 }
