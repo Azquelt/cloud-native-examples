@@ -1,0 +1,8 @@
+#!/bin/sh
+
+while true
+do
+    curl -k http://localhost:9080/serviceA/props/service.name
+    echo
+    sleep 1
+done
