@@ -1,13 +1,13 @@
 ## Retry
 
 Failure rate:
-rate(application:ft_test_service_c_helper_get_property_with_retry_invocations_failed_total[1m]) / rate(application:ft_test_service_c_helper_get_property_with_retry_invocations_total[1m])
+rate(application:ft_test_service_c_helper_get_property_easy_invocations_failed_total[1m]) / rate(application:ft_test_service_c_helper_get_property_easy_invocations_total[1m])
 
 Retry rate:
-rate(application:ft_test_service_c_helper_get_property_with_retry_retry_retries_total[1m]) / sum(rate({__name__=~"application:ft_test_service_c_helper_get_property_with_retry_retry_calls_.*_total"}[1m])) without (__name__)
+rate(application:ft_test_service_c_helper_get_property_easy_retry_retries_total[1m]) / sum(rate({__name__=~"application:ft_test_service_c_helper_get_property_easy_retry_calls_.*_total"}[1m])) without (__name__)
 
 Rate of calls which succeeded with retries:
-rate(application:ft_test_service_c_helper_get_property_with_retry_retry_calls_succeeded_retried_total[1m]) / sum(rate({__name__=~"application:ft_test_service_c_helper_get_property_with_retry_retry_calls_.*_total"}[1m])) without (__name__)
+rate(application:ft_test_service_c_helper_get_property_easy_retry_calls_succeeded_retried_total[1m]) / sum(rate({__name__=~"application:ft_test_service_c_helper_get_property_easy_retry_calls_.*_total"}[1m])) without (__name__)
 
 
 
@@ -16,19 +16,19 @@ rate(application:ft_test_service_c_helper_get_property_with_retry_retry_calls_su
 ## Timeout and fallback
 
 Failure rate:
-rate(application:ft_test_service_c_helper_get_property_with_timeout_and_fallback_invocations_failed_total[1m]) / rate(application:ft_test_service_c_helper_get_property_with_timeout_and_fallback_invocations_total[1m])
+rate(application:ft_test_service_c_helper_get_property_with_timeout_invocations_failed_total[1m]) / rate(application:ft_test_service_c_helper_get_property_with_timeout_invocations_total[1m])
 
 Fallback rate:
-rate(application:ft_test_service_c_helper_get_property_with_timeout_and_fallback_fallback_calls_total[1m]) / rate(application:ft_test_service_c_helper_get_property_with_timeout_and_fallback_invocations_total[1m])
+rate(application:ft_test_service_c_helper_get_property_with_timeout_fallback_calls_total[1m]) / rate(application:ft_test_service_c_helper_get_property_with_timeout_invocations_total[1m])
 
 Execution times quantiles:
 application:ft_test_service_c_helper_get_property_with_timeout_timeout_execution_duration_seconds
 
 Execution time mean:
-application:ft_test_service_c_helper_get_property_with_timeout_and_fallback_timeout_execution_duration_mean_seconds
+application:ft_test_service_c_helper_get_property_with_timeout_timeout_execution_duration_mean_seconds
 
 Circuit breaker state:
-rate({__name__=~"application:ft_test_service_c_helper_get_property_with_timeout_and_fallback_circuitbreaker_.+_total_seconds"}[1m])
+rate({__name__=~"application:ft_test_service_c_helper_get_property_with_timeout_circuitbreaker_.+_total_seconds"}[1m])
 
 Worth showing how metrics change:
 * With slow server

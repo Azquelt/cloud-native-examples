@@ -33,16 +33,16 @@ public class ServiceCHelper {
         return client.getProp("none", name).getValue();
     }
 
+    //@Retry
     public Prop getPropertyEasy(String name) {
         return new Prop(name, getProperty(name));
     }
 
-    @Retry()
-    public Prop getPropertyWithRetry(String name)  {
-        return new Prop(name, getProperty(name));
-    }
+
 
     @Timeout(500)
+    //@Fallback(fallbackMethod="fallback")
+    //@CircuitBreaker
     public Prop getPropertyWithTimeout(String name)  {
         try {
             return self.getPropertyAsync(name).get();
@@ -51,26 +51,8 @@ public class ServiceCHelper {
         }
     }
 
-    @Timeout(500)
-    @Fallback(fallbackMethod="fallback")
-    public Prop getPropertyWithTimeoutAndFallback(String name) {
-        try {
-            return self.getPropertyAsync(name).get();
-        } catch (Exception e) {
-            throw unwrapException(e);
-        }
-    }
 
-    @Timeout(500)
-    @Fallback(fallbackMethod="fallback")
-    @CircuitBreaker(requestVolumeThreshold = 10)
-    public Prop getPropertyWithTimeoutFallbackAndCircuitBreaker(String name) {
-        try {
-            return self.getPropertyAsync(name).get();
-        } catch (Exception e) {
-            throw unwrapException(e);
-        }
-    }
+
 
     public Prop fallback(String name) {
         return new Prop(name, System.getProperty(name));
